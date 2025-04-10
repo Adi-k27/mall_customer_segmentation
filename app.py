@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import silhouette_score
 
 from src.data_loader import load_data
-from src.model import train_kmeans
+from src.model import load_model
 from src.predictor import predict_cluster
 from src.logger import get_logger
 
@@ -29,13 +29,16 @@ train_features = ["Age", "Annual_Income", "Spending_Score"]
 predict_features = ["Age", "Annual_Income"]
 k = 5
 
+# Load model
 try:
-    model, labels, inertia = train_kmeans(df[train_features], k)
-    df["Cluster"] = labels
-    silhouette = silhouette_score(df[train_features], labels)
+    model = load_model("models/kmeans_model.pkl")
+    df["Cluster"] = model.predict(df[["Age", "Annual_Income", "Spending_Score"]])
+    from sklearn.metrics import silhouette_score
+    silhouette = silhouette_score(df[["Age", "Annual_Income", "Spending_Score"]], df["Cluster"])
+    inertia = model.inertia_
 except Exception as e:
-    st.error(f"Clustering model training failed: {e}")
-    logger.exception("KMeans training failed")
+    st.error(f"Model loading or inference failed: {e}")
+    logger.exception("Model load/inference failed")
     st.stop()
 
 # === Navigation ===
