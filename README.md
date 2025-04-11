@@ -1,6 +1,6 @@
-# 🏦 Loan Approval Prediction
+# 🏦 Mall Customer Segmentation
 
-This project uses Logistic Regression and Random Forest to predict whether a loan should be approved based on applicant data.
+This project uses Kmeans Clustering on mall customer data and identifies new customer cluster based on Age and Annual.
 
 ## ✅ Requirements
 Install dependencies with:
